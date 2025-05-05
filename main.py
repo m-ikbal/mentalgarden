@@ -3,13 +3,14 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from routers.auth import router as auth_router
 from routers.mood import router as mood_router
+from routers.tree import router as tree_router
 from models import Base
 from database import engine
 
 app = FastAPI()
 app.include_router(auth_router)
 app.include_router(mood_router)
-
+app.include_router(tree_router)
 
 Base.metadata.create_all(bind=engine)
 

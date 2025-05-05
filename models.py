@@ -29,5 +29,3 @@ class TreeState(Base):
     has_flowers = Column(Boolean, default=False)
     falling_leaves = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
-
-    user = relationship("User", back_populates="tree_states")

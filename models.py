@@ -1,5 +1,8 @@
+from sqlalchemy.orm import relationship
+from datetime import date
 from database import Base
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKey
+
 
 class User(Base):
     __tablename__ = 'users'
@@ -14,3 +17,17 @@ class User(Base):
     phone_number = Column(String)
     city = Column(String)
     age = Column(Integer)
+
+
+class TreeState(Base):
+    __tablename__ = "tree_states"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    date = Column(Date, default=date.today)
+    emotion = Column(String)
+    leaf_color = Column(String)
+    has_flowers = Column(Boolean, default=False)
+    falling_leaves = Column(Boolean, default=False)
+    # vs.
+
+    user = relationship("User", back_populates="tree_states")

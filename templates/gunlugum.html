@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Günlük - MentalGarden</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+<header>
+    <a href="anasayfa.html">
+        <img src="../assets/logo.svg" alt="assets/MentalGarden Logo" class="logo">
+    </a>
+    <nav class="navbar">
+        <a href="gunlugum.html">Günlük</a>
+        <a href="bahcem.html">Bahçem</a>
+        <a href="#">Bahçemiz</a>
+        <a href="hakkimizda.html">Hakkımızda</a>
+    </nav>
+    <a href="#" class="profile-btn">
+        <img src="../assets/profile-icon.svg" alt="Profil">
+    </a>
+</header>
+
+
+<main class="journal-page">
+    <div class="quote-container">
+        <p id="quote-text">"Her gün yeni bir başlangıçtır."</p>
+    </div>
+
+    <div class="journal-container">
+        <textarea id="journal-entry" placeholder="Bugün ne düşündüğünü yaz..." rows="10" cols="50"></textarea>
+        <button id="save-entry">Kaydet</button>
+    </div>
+</main>
+
+
+<script src="journal.js"></script>
+
+<script>
+        document.getElementById("save-entry").addEventListener("click", async function () {
+        const journalText = document.getElementById("journal-entry").value;
+
+        if (!journalText.trim()) {
+            alert("Lütfen bir şeyler yaz.");
+            return;
+        }
+
+        try {
+            const response = await fetch("/mood/analyze-mood", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({text: journalText})
+            });
+
+            if (!response.ok) {
+                throw new Error("Sunucudan geçerli bir yanıt alınamadı.");
+            }
+
+            const data = await response.json();
+
+            // Sonucu göster
+            document.getElementById("emotion-result").innerHTML = `
+            Ruh halin: <strong>${data.dominant_emotion}</strong> (Skor: ${data.score})
+        `;
+
+            // Ağaç güncelle
+            const tree = document.getElementById("tree");
+            tree.style.display = "block";
+
+            if (data.score >= 2) {
+                tree.src = "../assets/tree_happy.png";
+            } else if (data.score === 0) {
+                tree.src = "../assets/tree_neutral.png";
+            } else {
+                tree.src = "../assets/tree_sad.png";
+            }
+
+        } catch (err) {
+            console.error("Hata:", err);
+            alert("Bir hata oluştu. Lütfen tekrar deneyin.");
+        }
+    });
+</script>
+</body>
+</html>

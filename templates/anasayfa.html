@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ana Sayfa - MentalGarden</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <header>
+        <a href="anasayfa.html">
+            <img src="../assets/logo.svg" alt="assets/MentalGarden Logo" class="logo">
+        </a>
+        <nav class="navbar">
+            <a href="günlügüm.html">Günlük</a>
+            <a href="bahcem.html">Bahçem</a>
+            <a href="#">Bahçemiz</a>
+            <a href="hakkimizda.html">Hakkımızda</a>
+        </nav>
+        <a href="#" class="profile-btn">
+            <img src="../assets/profile-icon.svg" alt="Profil">
+        </a>
+    </header>
+    <main class="homepage">
+        <section class="left-section">
+            <h1 class="welcome-text" id="welcome-text"> Hoşgeldin! </h1>
+            <p class="quote">Umut insanların kalbini asla terk etmez.</p>
+        </section>
+        <section class="right-section">
+            <img src="../assets/garden-background.svg" alt="Background Image" class="background-img">
+        </section>
+    </main>
+    <script>
+        const username = localStorage.getItem("username");
+        const title = document.getElementById("welcome-text");
+        if (username) {
+            title.textContent = `${username}’nın Bahçesi`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>MentalGarden</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+<header>
+    <a href="anasayfa.html">
+        <img src="../assets/logo.svg" alt="assets/MentalGarden Logo" class="logo">
+    </a>
+    <nav class="navbar">
+        <a href="gunlugum.html">Günlük</a>
+        <a href="bahcem.html">Bahçem</a>
+        <a href="#">Bahçemiz</a>
+        <a href="hakkimizda.html">Hakkımızda</a>
+    </nav>
+    <a href="#" class="profile-btn">
+        <img src="../assets/profile-icon.svg" alt="Profil">
+    </a>
+</header>
+
+<!-- Giriş Yap Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" data-close="loginModal">&times;</span>
+        <h2>Giriş Yap</h2>
+        <form onsubmit=handleLogin(event)>
+            <label>E-posta:</label>
+            <input type="eposta" placeholder="E-posta adresinizi girin" required>
+
+            <label>Şifre:</label>
+            <input type="password" placeholder="Şifrenizi girin" required>
+
+            <button type="submit">Giriş Yap</button>
+        </form>
+    </div>
+</div>
+
+<!-- Kayıt Ol Modal -->
+<div id="signupModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" data-close="signupModal">&times;</span>
+        <h2>Kayıt Ol</h2>
+        <span id="register-message"></span>
+        <form id="signupForm"> <!-- ← buraya id eklendi -->
+            <label>Adınız:</label>
+            <input type="ad" id="username" name="first_name" placeholder="Adınızı girin" required>
+
+            <label>Soyadınız:</label>
+            <input type="soyad" id="surname" name="last_name" placeholder="Soyadınızı girin" required>
+
+            <label>Telefon Numarası:</label>
+            <input type="tel" placeholder="05xx xxx xx xx" required>
+
+            <label for="sehir">Şehir:</label>
+            <select id="sehir" required>
+                <option value="" disabled selected>Şehrinizi seçin</option>
+                <script>
+                    const cities = ["Adana", "Adiyaman", "Afyon", "Agri", "Aksaray", "Amasya", "Ankara", "Antalya", "Ardahan", "Artvin", "Aydin", "Balikesir", "Bartin", "Batman", "Bayburt", "Bilecik", "Bingol", "Bitlis", "Bolu", "Burdur", "Bursa", "Canakkale", "Cankiri", "Corum", "Denizli", "Diyarbakir", "Duzce", "Edirne", "Elazig", "Erzincan", "Erzurum", "Eskisehir", "Gaziantep", "Giresun", "Gumushane", "Hakkari", "Hatay", "Igdir", "Isparta", "Istanbul", "Izmir", "Kahramanmaras", "Karabuk", "Karaman", "Kars", "Kastamonu", "Kayseri", "Kilis", "Kirikkale", "Kirklareli", "Kirsehir", "Kocaeli", "Konya", "Kutahya", "Malatya", "Manisa", "Mardin", "Mersin", "Mugla", "Mus", "Nevsehir", "Nigde", "Ordu", "Osmaniye", "Rize", "Sakarya", "Samsun", "Sanliurfa", "Siirt", "Sinop", "Sirnak", "Sivas", "Tekirdag", "Tokat", "Trabzon", "Tunceli", "Usak", "Van", "Yalova", "Yozgat", "Zonguldak"];
+                    const select = document.getElementById("sehir");
+
+                    cities.forEach(city => {
+                        const option = document.createElement("option");
+                        option.value = city;
+                        option.textContent = city;
+                        select.appendChild(option);
+                    });
+                </script>
+            </select>
+
+            <label>Yaş:</label>
+            <input type="number" placeholder="Yaşınızı girin" required>
+
+            <label>E-posta:</label>
+            <input type="email" name="email" placeholder="E-posta adresiniz" required>
+
+            <label>Şifre:</label>
+            <input type="password" name="password" placeholder="Şifre oluşturun" required>
+
+            <button type="submit">Kayıt Ol</button>
+        </form>
+    </div>
+</div>
+
+
+<main>
+    <section class="left-section">
+        <p class="motto">
+            <span class="bold-text">Zihnini besle, çiçek açsın.  
+            Her gün kendine bir cümle hediye et...</span><br>
+            <span class="light-text">Sürdürülebilir ve dengeli yaşam için.
+            Bugün başlamak ister misin ?</span>
+        </p>
+        <div class="auth-buttons">
+            <button class="login-btn">Giriş Yap</button>
+            <button class="signup-btn">Kayıt Ol</button>
+        </div>
+    </section>
+
+    <section class="right-section">
+        <img src="../assets/mainGarden.svg" alt="Bahçe Görseli" class="garden-img">
+    </section>
+</main>
+
+</body>
+</html>
+
+<script>
+    // Modalları aç/kapat fonksiyonları
+    document.querySelector('.login-btn').addEventListener('click', function () {
+        document.getElementById('loginModal').style.display = 'block';
+    });
+
+    document.querySelector('.signup-btn').addEventListener('click', function () {
+        document.getElementById('signupModal').style.display = 'block';
+    });
+
+    // Kapatma butonları
+    document.querySelectorAll('.close-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const modalId = btn.getAttribute('data-close');
+            document.getElementById(modalId).style.display = 'none';
+        });
+    });
+
+    // Dışarı tıklayınca kapat
+    window.addEventListener('click', function (e) {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+        }
+    });
+
+    // Kullanıcı adını al ve yönlendir
+    function handleLogin(event) {
+
+        event.preventDefault();
+        const username = document.getElementById("username").value;
+        localStorage.setItem("username", username);
+        window.location.href = "anasayfa.html";
+    }
+
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+
+            const payload = new URLSearchParams();
+            const email = form.querySelector('input[type="email"]').value;
+            const password = form.querySelector('input[type="password"]').value;
+            payload.append("username", email);
+            payload.append("password", password);
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/auth/token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: payload.toString()
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert("Giriş başarılı!");
+
+                    document.cookie = `access_token=${data.access_token}; path=/`;
+
+                    // İstenilen sayfaya yönlendir
+                    window.location.href = 'anasayfa.html';
+                } else {
+                    alert("Hata: " + (data.detail || "Bilinmeyen hata"));
+                }
+            } catch (error) {
+                console.error('İstek hatası:', error);
+                alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+            }
+        });
+    }
+
+
+    // Kayıt formu
+    const signupForm = document.getElementById("signupForm");
+    if (signupForm) {
+        signupForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            const payload = {
+                first_name: data.first_name,
+                last_name: data.last_name,
+                phone_number: data.phone_number,
+                city: data.city,
+                age: data.age,
+                email: data.email,
+                password: data.password,
+                role: "user"
+            };
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/auth/create_user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    document.getElementById('signupModal').style.display = 'none';
+                    document.getElementById('loginModal').style.display = 'block';
+                } else {
+                    // Handle error
+                    const errorData = await response.json();
+                    alert(`Error: ${errorData.message}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+            }
+        });
+    }
+
+</script>
+

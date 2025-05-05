@@ -1,0 +1,439 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
+
+:root {
+    --dark-rose: #745751;
+    --soft-red: #CC8282;
+    --olive: #696F55;
+    --light-brown: #A29572;
+    --warm-beige: #B59C7D;
+    --soft-grey: #BAB7A6;
+    --dark-grey: #6C655E;
+    --light-black: #2E3124;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', sans-serif;
+    background: linear-gradient(135deg, var(--soft-grey), #ffffff);
+    color: var(--dark-rose);
+    min-height: 100vh;
+}
+
+/* ========== Header ========== */
+/* Navbar için linkler */
+.navbar {
+    display: flex;
+    gap: 4rem;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: var(--light-black);
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.navbar a:hover {
+    color: var(--dark-rose);
+}
+
+/* Header düzeni (güncel) */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 2rem;
+    background-color: var(--warm-beige);
+}
+
+header .logo {
+    height: 50px;
+}
+
+/* Profil butonu */
+.profile-btn img {
+    height: 40px;
+    transition: transform 0.2s ease;
+}
+
+.profile-btn img:hover {
+    transform: scale(1.1);
+}
+
+/* ========== Ana İçerik Yerleşimi ========== */
+main {
+    display: flex;
+    height: calc(100vh - 80px); /* header yüksekliğini çıkar */
+}
+
+.left-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.motto {
+    font-size: 2.2rem;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    color: var(--light-black);
+    font-weight: bold;
+    max-width: 90%;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+.light-text {
+    font-weight: 300; /* İnce yazı için */
+}
+
+.right-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.garden-img {
+    width: 500px;
+    height: auto;
+}
+
+/* ========== Butonlar ========== */
+.auth-buttons {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.auth-buttons button {
+    padding: 0.7rem 1.5rem;
+    border-radius: 25px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.login-btn {
+    background-color: var(--olive);
+    color: #fff;
+}
+
+.login-btn:hover {
+    background-color: var(--dark-rose);
+}
+
+.signup-btn {
+    background-color: var(--soft-red);
+    color: #fff;
+}
+
+.signup-btn:hover {
+    background-color: var(--dark-rose);
+}
+/* ====== Hakkımızda Sayfası ====== */
+.about-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Dikey ortala */
+    align-items: center;     /* Yatay ortala */
+    min-height: calc(100vh - 80px); /* header yüksekliği çıkar */
+    padding: 2rem;
+    text-align: center;
+}
+
+.about-page h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--light-black);
+    font-weight: normal;
+}
+
+.team-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 900px;
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+.team-member {
+    flex: 0 1 30%; /* 3 kişi üstte, alt satırda da 2 kişi */
+    text-align: center;
+    background-color: var(--soft-grey);
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.team-member h2 {
+    margin-bottom: 0.8rem;
+    color: var(--dark-rose);
+}
+
+.team-member p {
+    font-size: 0.95rem;
+    color: var(--light-black);
+}
+
+/* Alt satırdaki 2 kişiyi ortalamak için */
+.team-container .team-member:nth-child(4),
+.team-container .team-member:nth-child(5) {
+    flex: 0 1 45%; /* 2 kişi daha geniş */
+    margin-top: 1rem;
+}
+
+
+.about-footer {
+    margin-top: 2rem;
+}
+
+.about-footer p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.social-icons a img {
+    width: 40px;
+    margin: 0 0.5rem;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.social-icons a img:hover {
+    opacity: 1;
+}
+/* Ana sayfa genel düzeni */
+.homepage {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    padding: 2rem;
+    background-color: var(--soft-grey);
+}
+
+/* Soldaki hoşgeldin ve quote */
+.left-section {
+    flex: 1;
+}
+
+.welcome-text {
+    color: var(--light-black);
+    transform: translateY(-20px);
+    font-size: 5rem;
+    font-weight: bold;
+    text-align: left;
+}
+
+.quote {
+    font-family: 'Caveat', cursive;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--dark-rose);
+    margin-top: 1rem;
+}
+
+/* Sağdaki görsel */
+.right-section {
+    flex-shrink: 0;
+}
+
+.background-img {
+    width: 512px;
+    transform: translateY(-20px);
+    max-width: 100%;
+    height: auto;
+}
+
+/* Mobil uyumlu olsun diye (isteğe bağlı) */
+@media (max-width: 768px) {
+    .homepage {
+        flex-direction: column;
+    }
+
+    .background-img {
+        width: 80%;
+        margin-top: 2rem;
+    }
+}
+
+
+/* Günlük Sayfası */
+.journal-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.quote-container {
+    font-size: 1.5rem;
+    color: var(--dark-rose);
+    font-style: italic;
+    margin-bottom: 30px;
+}
+
+.journal-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Textarea düzeni */
+textarea {
+    width: 100%;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    line-height: 1.5;
+    font-family: 'Inter', sans-serif;
+    resize: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--dark-rose);
+}
+
+/* Kaydet butonu düzenlemesi */
+#save-entry {
+    padding: 12px 24px;
+    background-color: var(--olive);
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+}
+
+#save-entry:hover {
+    background-color: var(--dark-rose);
+    transform: translateY(-2px);
+}
+
+#save-entry:active {
+    background-color: var(--soft-red);
+    transform: translateY(1px);
+}
+
+
+/* ========== Mobil Uyum ========== */
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+
+    .left-section {
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .motto {
+        font-size: 1.7rem;
+    }
+
+    .auth-buttons {
+        flex-direction: column;
+        width: 80%;
+    }
+
+    .auth-buttons button {
+        width: 100%;
+    }
+
+    .garden-img {
+        width: 50%;
+    }
+}
+
+/* Modal Genel */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+/* Modal İçeriği */
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.modal-content h2 {
+    margin-bottom: 1rem;
+    color: var(--dark-rose);
+}
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.modal-content input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.modal-content button {
+    margin-top: 1rem;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 25px;
+    background-color: var(--olive);
+    color: #fff;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background-color: var(--dark-rose);
+}
+
+/* Modal Kapatma Butonu */
+.close-btn {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+}

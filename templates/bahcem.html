@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Bahçem - MentalGarden</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <style>
+        body {
+            background-color: #f4f8f3;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #d4eac7;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            height: 50px;
+        }
+
+        .navbar a {
+            margin: 0 1rem;
+            text-decoration: none;
+            color: #2c5e2e;
+            font-weight: bold;
+        }
+
+        .profile-btn img {
+            height: 40px;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        h1 {
+            color: #345d3d;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        textarea, select, button {
+            width: 100%;
+            margin-top: 0.5rem;
+            padding: 0.7rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        #garden-view {
+            width: 100%;
+            max-width: 800px;
+            min-height: 300px;
+            background: url('../assets/soil.jpg') no-repeat center bottom;
+            background-size: cover;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: end;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .flower {
+            width: 80px;
+            height: auto;
+            margin: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .flower:hover {
+            transform: scale(1.1) rotate(-2deg);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="anasayfa.html">
+        <img src="../assets/logo.svg" alt="MentalGarden Logo" class="logo">
+    </a>
+    <nav class="navbar">
+        <a href="gunlugum.html">Günlük</a>
+        <a href="bahcem.html">Bahçem</a>
+        <a href="#">Bahçemiz</a>
+        <a href="hakkimizda.html">Hakkımızda</a>
+    </nav>
+    <a href="#" class="profile-btn">
+        <img src="../assets/profile-icon.svg" alt="Profil">
+    </a>
+</header>
+
+<main>
+    <h1>🌿 Bahçem</h1>
+
+    <form id="moodForm">
+        <label for="dailySentence">Bugün ne hissediyorsun?</label><br>
+        <textarea id="dailySentence" placeholder="Kendine bir cümle yaz..." required></textarea><br>
+        <p id="emotion-result"></p>
+
+        <button type="submit">Tohum Ekle</button>
+    </form>
+
+    <section id="garden-view">
+        <!-- Çiçekler buraya eklenir -->
+    </section>
+</main>
+
+<script>
+    document.getElementById("moodForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const journalText = document.getElementById("dailySentence").value;
+
+        if (!journalText.trim()) {
+            alert("Lütfen bir şeyler yaz.");
+            return;
+        }
+
+        try {
+            const response = await fetch("http://127.0.0.1:8000/mood/analyze-mood", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({text: journalText})
+            });
+
+            if (!response.ok) {
+                throw new Error("Sunucudan geçerli bir yanıt alınamadı.");
+            }
+
+            const data = await response.json();
+
+            // Sonucu göster
+            document.getElementById("emotion-result").innerHTML = `
+          Ruh halin: <strong>${data.dominant_emotion}</strong> (Skor: ${data.score})
+      `;
+
+            // Çiçek ekle
+            const flower = document.createElement("img");
+            flower.src = "../assets/flower0.svg"; // 🌺 yerine gerçek görsel kullanalım
+            flower.className = "flower";
+            document.getElementById("garden-view").appendChild(flower);
+
+            // Form temizle
+            document.getElementById("dailySentence").value = "";
+
+        } catch (err) {
+            console.error("Hata:", err);
+            alert("Bir hata oluştu. Lütfen tekrar deneyin.");
+        }
+    });
+</script>
+</body>
+</html>

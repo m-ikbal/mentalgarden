@@ -1,7 +1,7 @@
 from sqlalchemy.orm import relationship
-from datetime import date
+from datetime import date, datetime
 from database import Base
-from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKey, DateTime
 
 
 class User(Base):
@@ -28,6 +28,6 @@ class TreeState(Base):
     leaf_color = Column(String)
     has_flowers = Column(Boolean, default=False)
     falling_leaves = Column(Boolean, default=False)
-    # vs.
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="tree_states")

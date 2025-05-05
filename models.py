@@ -29,3 +29,11 @@ class TreeState(Base):
     has_flowers = Column(Boolean, default=False)
     falling_leaves = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
+
+class MoodLogs(Base):
+    __tablename__ = "mood_logs"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    date = Column(Date, default=date.today)
+    mood_text = Column(String)
+    created_at = Column(DateTime, default=datetime.utcnow)

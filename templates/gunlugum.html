@@ -14,8 +14,14 @@
         <a href="gunlugum.html">Günlük</a>
         <a href="bahcem.html">Bahçem</a>
         <a href="#">Bahçemiz</a>
+        <a href="gecmis.html">Geçmiş</a>
         <a href="hakkimizda.html">Hakkımızda</a>
     </nav>
+    <!-- Çıkış Butonu -->
+    <a href="#" id="logout-btn" style="display: none;">
+        <img src="../assets/logout.svg" alt="Çıkış">
+    </a>
+
     <a href="#" class="profile-btn">
         <img src="../assets/profile-icon.svg" alt="Profil">
     </a>
@@ -37,7 +43,7 @@
 <script src="journal.js"></script>
 
 <script>
-        document.getElementById("save-entry").addEventListener("click", async function () {
+    document.getElementById("save-entry").addEventListener("click", async function () {
         const journalText = document.getElementById("journal-entry").value;
 
         if (!journalText.trim()) {
@@ -81,6 +87,66 @@
             console.error("Hata:", err);
             alert("Bir hata oluştu. Lütfen tekrar deneyin.");
         }
+    });
+
+    window.addEventListener('DOMContentLoaded', async () => {
+        const cookies = document.cookie.split(';').reduce((acc, c) => {
+            const [k, v] = c.trim().split('=');
+            acc[k] = v;
+            return acc;
+        }, {});
+
+        console.log("Access Token:", cookies.access_token);
+
+        if (cookies.access_token) {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/auth/me', {
+                    headers: {
+                        Authorization: `Bearer ${cookies.access_token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    console.log("User:", user);
+
+                    const navbar = document.querySelector('.navbar');
+                    const profileBtn = document.querySelector('.profile-btn');
+                    const logoutBtn = document.getElementById('logout-btn');
+
+                    if (navbar) {
+                        navbar.insertAdjacentHTML('beforeend',
+                            `<span style="margin-left:20px;">Hoş geldin, ${user.email}</span>`
+                        );
+                    }
+
+                    if (profileBtn) profileBtn.style.display = 'inline-block';
+                    if (logoutBtn) logoutBtn.style.display = 'block';
+
+                    const loginBtn = document.querySelector('.login-btn');
+                    const signupBtn = document.querySelector('.signup-btn');
+
+                    if (loginBtn) loginBtn.style.display = 'none';
+                    if (signupBtn) signupBtn.style.display = 'none';
+
+                } else {
+                    const errorData = await response.json();
+                    console.error("Error response from /auth/me:", errorData);
+                }
+            } catch (e) {
+                console.error("Oturum kontrolü başarısız:", e);
+            }
+        }
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        // access_token çerezini geçersiz kıl
+        document.cookie = "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
+        // index sayfasına yönlendir
+        window.location.href = "index.html";
     });
 </script>
 </body>

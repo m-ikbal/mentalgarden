@@ -4,127 +4,185 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Geçmiş Ruh Halleri</title>
-    <link rel="stylesheet" href="../static/style.css?v=2"/>
+    <link rel="stylesheet" href="../static/style.css?v=4"/>
+    <style>
+        /* Geçmiş ruh halleri kısmı */
+        .card-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .card-header h1 {
+            color: #2e7d32;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .card-header p {
+            color: #6d6d6d;
+            font-size: 1.2rem;
+        }
+
+        /* Ruh halleri grid */
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 kolon */
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .mood-grid div {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .mood-grid div:hover {
+            transform: translateY(-10px); /* Hover etkisi */
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Günlük geçmişi */
+        #journalList {
+            text-align: left;
+            max-width: 600px;
+            margin: auto;
+            font-size: 1rem;
+            color: #4b3b3b;
+        }
+
+        #journalList ul {
+            padding: 0;
+        }
+
+        #journalList ul li {
+            background-color: #f9f9f9;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.3s ease;
+        }
+
+        #journalList ul li:hover {
+            background-color: #e0f2e9;
+        }
+
+        /* Genel görünüm ve hizalamalar */
+        main {
+            padding: 30px 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2e7d32;
+            margin-top: 2rem;
+        }
+
+        /* Resim düzeni */
+        .garden-img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
+
 <header>
     <a href="anasayfa.html">
         <img src="../assets/logo.svg" alt="assets/MentalGarden Logo" class="logo">
     </a>
     <nav class="navbar">
-        <a href="günlügüm.html">Günlük</a>
+        <a href="gunlugum.html">Günlük</a>
         <a href="bahcem.html">Bahçem</a>
         <a href="#">Bahçemiz</a>
         <a href="gecmis.html">Geçmiş</a>
         <a href="hakkimizda.html">Hakkımızda</a>
     </nav>
+    <a href="#" id="logout-btn" style="display: none;">
+        <img src="../assets/logout.svg" alt="Çıkış">
+    </a>
     <a href="#" class="profile-btn">
         <img src="../assets/profile-icon.svg" alt="Profil">
     </a>
 </header>
 
-<main class="container">
+<br>
+<div class="card-header">
     <h1>Geçmiş Ruh Halleri</h1>
+    <br><br>
     <p>Son 7 gün boyunca kendini nasıl hissettiğini buradan görebilirsin 🌱</p>
+</div>
 
-    <div class="mood-grid">
+<main class="container">
+    <!-- Ruh Halleri Grid -->
+    <div class="mood-grid" id="moodGrid"></div>
 
-        <!-- GÜNLÜK VERİ ÖRNEKLERİ -->
-        <div class="mood-grid">
-
-            <div class="mood-card">
-                <p class="mood-date">4 Mayıs 2025</p>
-                <img src="../assets/tree4.svg" alt="Mutlu" class="mood-image">
-                <p class="mood-desc">Bugün çok mutlu hissediyordum!</p>
-            </div>
-
-            <div class="mood-card">
-                <p class="mood-date">3 Mayıs 2025</p>
-                <img src="../assets/tree3.svg" alt="İyi" class="mood-image">
-                <p class="mood-desc">Kendimi oldukça iyi hissediyordum.</p>
-            </div>
-
-            <div class="mood-card">
-                <p class="mood-date">2 Mayıs 2025</p>
-                <img src="../assets/tree2.svg" alt="Nötr" class="mood-image">
-                <p class="mood-desc">Ne iyi ne kötü, nötr bir gündü.</p>
-            </div>
-
-            <div class="mood-card">
-                <p class="mood-date">1 Mayıs 2025</p>
-                <img src="../assets/tree1.svg" alt="Üzgün" class="mood-image">
-                <p class="mood-desc">Biraz üzgündüm bugün.</p>
-            </div>
-
-            <div class="mood-card">
-                <p class="mood-date">30 Nisan 2025</p>
-                <img src="../assets/tree0.svg" alt="Stresli" class="mood-image">
-                <p class="mood-desc">Gergin ve stresli bir gün geçirdim.</p>
-            </div>
-
-            <div class="mood-card">
-                <p class="mood-date">29 Nisan 2025</p>
-                <img src="../assets/tree2.svg" alt="Nötr" class="mood-image">
-                <p class="mood-desc">Her şey dengedeydi, neşeli ama sakin bir gündü.</p>
-            </div>
-
-            <div class="mood-card">
-                <p class="mood-date">28 Nisan 2025</p>
-                <img src="../assets/tree3.svg" alt="İyi" class="mood-image">
-                <p class="mood-desc">Motivasyonum yerindeydi, güzel bir gündü.</p>
-            </div>
-        </div>
+    <!-- Günlük Geçmişi -->
+    <h2>📖 Günlük Geçmişi</h2>
+    <div id="journalList">
+        <ul id="mood-list"></ul>
     </div>
 </main>
-</body>
+
 <script>
-    document.addEventListener("DOMContentLoaded", async function () {
-        try {
-            const token = "YOUR_API_TOKEN_HERE"; // Token'ınızı buraya yerleştirin
+    document.addEventListener("DOMContentLoaded", async () => {
+        const cookies = document.cookie.split(';').reduce((acc, c) => {
+            const [k, v] = c.trim().split('=');
+            acc[k] = v;
+            return acc;
+        }, {});
 
-            const response = await fetch("http://127.0.0.1:8000/mood_logs/mood_logs/5", {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
+        if (cookies.access_token) {
+            try {
+                const response = await fetch("http://127.0.0.1:8000/mood_logs/get_all_mood_logs", {
+                    headers: {
+                        Authorization: `Bearer ${cookies.access_token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    // API cevabını kontrol et
+                    console.log("API cevabı:", data);
+
+                    const list = document.getElementById("mood-list");
+
+                    if (data.length === 0) {
+                        list.innerHTML = "<li>Henüz ruh hali girişi yapılmamış.</li>";
+                    } else {
+                        data.forEach(entry => {
+                            // entry.created_at değerini kontrol et
+                            console.log("Ruh hali girişi:", entry);
+
+                            if (entry.created_at) {
+                                const formattedDate = new Date(entry.created_at).toLocaleDateString();
+                                if (formattedDate !== "Invalid Date") {
+                                    const li = document.createElement("li");
+                                    li.textContent = `${formattedDate} - ${entry.mood_text}`;
+                                    list.appendChild(li);
+                                } else {
+                                    console.error("Geçersiz tarih:", entry.created_at);
+                                }
+                            } else {
+                                console.error("created_at verisi eksik:", entry);
+                            }
+                        });
+                    }
+                } else {
+                    console.error("Ruh halleri getirilemedi");
                 }
-            });
-
-            if (!response.ok) {
-                throw new Error("Geçmiş veriler alınamadı.");
+            } catch (error) {
+                console.error("İstek hatası:", error);
             }
-
-            const moodLogs = await response.json();
-            const moodGridContainer = document.getElementById("moodGridContainer");
-
-            moodLogs.forEach(log => {
-                const moodCard = document.createElement("div");
-                moodCard.classList.add("mood-card");
-
-                const moodDate = document.createElement("p");
-                moodDate.classList.add("mood-date");
-                moodDate.textContent = new Date(log.date).toLocaleDateString("tr-TR");
-
-                const moodImage = document.createElement("img");
-                moodImage.src = log.image_url || "../assets/tree3.svg";
-                moodImage.alt = log.mood_text || "Ruh Hali Görseli";
-                moodImage.classList.add("mood-image");
-
-                const moodDesc = document.createElement("p");
-                moodDesc.classList.add("mood-desc");
-                moodDesc.textContent = log.mood_text;
-
-                moodCard.appendChild(moodDate);
-                moodCard.appendChild(moodImage);
-                moodCard.appendChild(moodDesc);
-                moodGridContainer.appendChild(moodCard);
-            });
-        } catch (err) {
-            console.error("Hata:", err);
-            alert("Geçmiş ruh hali verileri alınamadı.");
         }
     });
 
-</script>
-</html>
 
+</script>
+
+</body>
+</html>

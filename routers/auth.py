@@ -40,6 +40,8 @@ class CreateUserRequest(BaseModel):
     first_name: str
     last_name: str
     role: str
+    age: int
+    phone_number: str
 
 
 class Token(BaseModel):
@@ -84,7 +86,9 @@ async def create_user(db: db_dependency, create_user_request: CreateUserRequest)
         last_name=create_user_request.last_name,
         role=create_user_request.role,
         is_active=True,
-        hashed_password=bcrypt_context.hash(create_user_request.password)
+        hashed_password=bcrypt_context.hash(create_user_request.password),
+        age=create_user_request.age,
+        phone_number=create_user_request.phone_number
     )
     db.add(user)
     db.commit()
@@ -99,7 +103,13 @@ async def login_for_access_token(from_data: Annotated[OAuth2PasswordRequestForm,
     token = create_access_token(user.email, user.id, user.role, timedelta(minutes=60))
     return {"access_token": token, "token_type": "bearer"}
 
+
 @router.get("/get_all", status_code=status.HTTP_200_OK)
 async def get_all_users(db: db_dependency):
     users = db.query(User).all()
     return users
+
+
+@router.get("/me", status_code=status.HTTP_200_OK)
+async def get_me(current_user: dict = Depends(get_current_user)):
+    return current_user

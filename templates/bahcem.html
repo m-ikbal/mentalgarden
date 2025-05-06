@@ -105,10 +105,9 @@
         <a href="gecmis.html">Geçmiş</a>
         <a href="hakkimizda.html">Hakkımızda</a>
     </nav>
-    <a href="#" id="logout-btn" style="display: none;">
-        <img src="../assets/logout.svg" alt="Çıkış">
+    <a href="#" id="logout-btn" style="display: none; width: 40px; height: 40px;">
+        <img src="../assets/logout.svg" alt="Çıkış" style="width: 100%; height: 100%;">
     </a>
-
     <a href="#" class="profile-btn">
         <img src="../assets/profile-icon.svg" alt="Profil">
     </a>
@@ -168,15 +167,14 @@
             const userData = await userResponse.json();
             const userId = userData.id;
 
-            const moodSaveResponse = await fetch("http://127.0.0.1:8000/mood_logs/create_mood_logl", {
+            const moodSaveResponse = await fetch("http://127.0.0.1:8000/mood_logs/create_mood_log", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`
+                    Authorization: `Bearer ${accessToken}`,
                 },
                 body: JSON.stringify({
-                    user_id: userId,
-                    mood_text: journalText,
+                    mood_text: journalText
                 })
             });
 

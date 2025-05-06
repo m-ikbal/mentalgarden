@@ -3,7 +3,6 @@ from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, Path, Request
 from pydantic import BaseModel
 from starlette import status
-from torch.distributed.nn.jit import templates
 
 from database import SessionLocal
 from typing import Annotated
@@ -19,9 +18,7 @@ router = APIRouter(
 
 
 class MoodLog(BaseModel):
-    user_id: int
     mood_text: str
-    created_at: datetime
 
 
 def get_db():

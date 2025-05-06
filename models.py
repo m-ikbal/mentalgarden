@@ -34,6 +34,5 @@ class MoodLogs(Base):
     __tablename__ = "mood_logs"
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-    date = Column(Date, default=date.today)
     mood_text = Column(String)
     created_at = Column(DateTime, default=datetime.utcnow)

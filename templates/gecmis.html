@@ -128,54 +128,99 @@
 </main>
 
 <script>
+
     document.addEventListener("DOMContentLoaded", async () => {
-        const cookies = document.cookie.split(';').reduce((acc, c) => {
-            const [k, v] = c.trim().split('=');
-            acc[k] = v;
-            return acc;
-        }, {});
+        const getCookies = () => {
+            return document.cookie.split(';').reduce((acc, c) => {
+                const [k, v] = c.trim().split('=');
+                acc[k] = v;
+                return acc;
+            }, {});
+        };
 
-        if (cookies.access_token) {
-            try {
-                const response = await fetch("http://127.0.0.1:8000/mood_logs/get_all_mood_logs", {
-                    headers: {
-                        Authorization: `Bearer ${cookies.access_token}`
-                    }
-                });
+        const cookies = getCookies();
+        const token = cookies.access_token;
 
-                if (response.ok) {
-                    const data = await response.json();
-
-                    const list = document.getElementById("mood-list");
-
-                    if (data.length === 0) {
-                        list.innerHTML = "<li>Henüz ruh hali girişi yapılmamış.</li>";
-                    } else {
-                        data.forEach(entry => {
-                            // entry.created_at değerini kontrol et
-                            console.log("Ruh hali girişi:", entry);
-
-                            if (entry.created_at) {
-                                const formattedDate = new Date(entry.created_at).toLocaleDateString();
-                                if (formattedDate !== "Invalid Date") {
-                                    const li = document.createElement("li");
-                                    li.textContent = `${formattedDate} - ${entry.mood_text}`;
-                                    list.appendChild(li);
-                                } else {
-                                    console.error("Geçersiz tarih:", entry.created_at);
-                                }
-                            } else {
-                                console.error("created_at verisi eksik:", entry);
-                            }
-                        });
-                    }
-                } else {
-                    console.error("Ruh halleri getirilemedi");
-                }
-            } catch (error) {
-                console.error("İstek hatası:", error);
-            }
+        if (!token) {
+            window.location.href = "index.html";
+            return;
         }
+
+        // Navbar'ı güncelle
+        try {
+            const response = await fetch('http://127.0.0.1:8000/auth/me', {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+
+            if (response.ok) {
+                const user = await response.json();
+
+                const navbar = document.querySelector('.navbar');
+                const profileBtn = document.querySelector('.profile-btn');
+                const logoutBtn = document.getElementById('logout-btn');
+
+                if (navbar) {
+                    navbar.insertAdjacentHTML('beforeend',
+                        `<span style="margin-left:20px;">Hoş geldin, ${user.email}</span>`
+                    );
+                }
+
+                if (profileBtn) profileBtn.style.display = 'inline-block';
+                if (logoutBtn) logoutBtn.style.display = 'block';
+
+                const loginBtn = document.querySelector('.login-btn');
+                const signupBtn = document.querySelector('.signup-btn');
+
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (signupBtn) signupBtn.style.display = 'none';
+            } else {
+                console.error("Kullanıcı bilgisi alınamadı");
+            }
+        } catch (e) {
+            console.error("Oturum kontrolü başarısız:", e);
+        }
+
+        // Mood loglarını getir
+        try {
+            const response = await fetch("http://127.0.0.1:8000/mood_logs/get_all_mood_logs", {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const list = document.getElementById("mood-list");
+
+                if (data.length === 0) {
+                    list.innerHTML = "<li>Henüz ruh hali girişi yapılmamış.</li>";
+                } else {
+                    data.forEach(entry => {
+                        if (entry.created_at) {
+                            const formattedDate = new Date(entry.created_at).toLocaleDateString();
+                            if (formattedDate !== "Invalid Date") {
+                                const li = document.createElement("li");
+                                li.textContent = `${formattedDate} - ${entry.mood_text}`;
+                                list.appendChild(li);
+                            } else {
+                                console.error("Geçersiz tarih:", entry.created_at);
+                            }
+                        } else {
+                            console.error("created_at verisi eksik:", entry);
+                        }
+                    });
+                }
+            } else {
+                console.error("Ruh halleri getirilemedi");
+            }
+        } catch (error) {
+            console.error("İstek hatası:", error);
+        }
+
+        // Logout
+        document.getElementById('logout-btn').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.cookie = "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            window.location.href = "index.html";
+        });
     });
 
 

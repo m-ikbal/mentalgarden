@@ -21,7 +21,6 @@ router = APIRouter(
 class MoodLog(BaseModel):
     user_id: int
     mood_text: str
-    date: str
     created_at: datetime
 
 
@@ -41,15 +40,9 @@ async def create_mood_log(mood_log: MoodLog, user: user_dependency, db: db_depen
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
 
-    try:
-        date_value = datetime.strptime(mood_log.date, "%Y-%m-%d").date()
-    except ValueError:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid date format")
-
     mood_log_data = MoodLogs(
         user_id=user.get('id'),
         mood_text=mood_log.mood_text,
-        date=date_value,
         created_at=datetime.now()
     )
     db.add(mood_log_data)

@@ -146,9 +146,6 @@
                 if (response.ok) {
                     const data = await response.json();
 
-                    // API cevabını kontrol et
-                    console.log("API cevabı:", data);
-
                     const list = document.getElementById("mood-list");
 
                     if (data.length === 0) {
